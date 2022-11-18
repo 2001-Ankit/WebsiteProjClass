@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=400)
@@ -48,6 +49,7 @@ class Brand(models.Model):
 STOCK = (('in stock','in stock'),('out of stock'),('out of stock'))
 LABELS = (('hot','hot'),('new','new'),('sale','sale'))
 
+
 class Product(models.Model):
     name = models.CharField(max_length=400)
     slug = models.CharField(max_length=400)
@@ -62,3 +64,14 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Reviews(models.Model):
+    name = models.CharField(max_length=400)
+    image = models.ImageField(upload_to='media')
+    post = models.CharField(max_length=300)
+    feedback = models.TextField(max_length=500)
+
+    def __str__(self):
+        return self.name
+
