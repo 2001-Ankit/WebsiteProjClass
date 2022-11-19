@@ -15,10 +15,18 @@ class HomeView(BaseView):
         self.context['categories'] = Category.objects.all()
         self.context['subcategories'] = SubCategory.objects.all()
         self.context['sliders'] = Slider.objects.all()
-        self.context['brand'] = Brand.objects.all()
+        self.context['brands'] = Brand.objects.all()
         self.context['ads'] = Ad.objects.all()
         self.context['news'] = Product.objects.filter(labels='new')
         self.context['hots'] = Product.objects.filter(labels ='hot')
         self.context['reviews'] =Reviews.objects.all()
 
         return render(request,'index.html',self.context)
+
+
+class Categories(BaseView):
+
+    def get(self,request,slug):
+        ids = Category.objects.get(slug = slug).id
+        self.context['category_product'] = Product.objects.filter(Category_id = ids)
+        return render(request,'category.html',self.context)
