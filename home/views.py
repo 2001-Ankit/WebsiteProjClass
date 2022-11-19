@@ -25,8 +25,7 @@ class HomeView(BaseView):
 
 
 class Categories(BaseView):
-
     def get(self,request,slug):
         ids = Category.objects.get(slug = slug).id
-        self.context['category_product'] = Product.objects.filter(Category_id = ids)
+        self.context['category_product'] = Product.objects.filter(category_id = ids)
         return render(request,'category.html',self.context)

@@ -46,7 +46,8 @@ class Brand(models.Model):
         return self.name
 
 
-STOCK = (('in stock','in stock'),('out of stock'),('out of stock'))
+STOCK = (('in stock','In stock'),('out of stock','Out of stock'))
+
 LABELS = (('hot','hot'),('new','new'),('sale','sale'))
 
 
@@ -59,7 +60,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category,on_delete=models.CASCADE)
     subcategory = models.ForeignKey(SubCategory,on_delete=models.CASCADE)
     brand = models.ForeignKey(Brand,on_delete=models.CASCADE)
-    stock = models.CharField(max_length=100, choices='')
+    stock = models.CharField(max_length=100, choices=STOCK)
     labels = models.CharField(max_length=100,choices = LABELS)
 
     def __str__(self):
