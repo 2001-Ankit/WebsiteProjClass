@@ -62,7 +62,8 @@ class Product(models.Model):
     brand = models.ForeignKey(Brand,on_delete=models.CASCADE)
     stock = models.CharField(max_length=100, choices=STOCK)
     labels = models.CharField(max_length=100,choices = LABELS)
-
+    description = models.TextField(blank=True)
+    specification = models.TextField(blank=True)
     def __str__(self):
         return self.name
 
@@ -75,4 +76,15 @@ class Reviews(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ProductReview(models.Model):
+    slug = models.CharField(max_length=400)
+    username = models.CharField(max_length=400)
+    email = models.EmailField(max_length=100)
+    review = models.TextField(blank=True)
+    star = models.IntegerField(default = 1)
+
+    def __str__(self):
+        return self.username
 

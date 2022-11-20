@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .views import *
 from .models import *
 from django.views.generic import View
@@ -6,18 +6,19 @@ from django.views.generic import View
 
 class BaseView(View):
     context = {}
-
-
+    context['categories'] = Category.objects.all()
+    context['brands'] = Brand.objects.all()
+    context['sales'] = Product.objects.filter(labels='sales')
 
 class HomeView(BaseView):
 
     def get(self,request):
-        self.context['categories'] = Category.objects.all()
+        self.context
         self.context['subcategories'] = SubCategory.objects.all()
         self.context['sliders'] = Slider.objects.all()
-        self.context['brands'] = Brand.objects.all()
+
         self.context['ads'] = Ad.objects.all()
-        self.context['news'] = Product.objects.filter(labels='new')
+        self.context['news'] = Product.objects.filter(labels='news')
         self.context['hots'] = Product.objects.filter(labels ='hot')
         self.context['reviews'] =Reviews.objects.all()
 
@@ -26,6 +27,41 @@ class HomeView(BaseView):
 
 class Categories(BaseView):
     def get(self,request,slug):
+        self.context
         ids = Category.objects.get(slug = slug).id
         self.context['category_product'] = Product.objects.filter(category_id = ids)
         return render(request,'category.html',self.context)
+
+
+class SearchView(BaseView):
+    def get(self,request):
+        query = request.GET.get('query')
+        if not query:
+            return redirect('/')
+        self.context['search_product'] = Product.objects.filter(name__icontains = query)
+        return render(request,'search.html',self.context)
+
+class DetailView(BaseView):
+    def get(self,request,slug):
+        self.context
+        self.context['product_details'] = Product.objects.filter(slug = slug)
+        self.context['product_reviews'] =ProductReview.objects.filter(slug=slug)
+        return render(request, 'product-detail.html', self.context)
+
+
+def review(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        email = request.POST['email']
+        review = request.POST['review']
+        slug = request.POST['slug']
+        star = request.POST['star']
+        data = ProductReview.objects.create(
+            username = username,
+            email = email,
+            star = star,
+            review = review,
+            slug = slug
+        )
+        data.save
+        return redirect(f'/product-details/{{slug}}')
