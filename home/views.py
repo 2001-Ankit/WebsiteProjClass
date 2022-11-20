@@ -46,6 +46,7 @@ class DetailView(BaseView):
         self.context
         self.context['product_details'] = Product.objects.filter(slug = slug)
         self.context['product_reviews'] =ProductReview.objects.filter(slug=slug)
+        self.context['related_products'] = Product.objects.filter(slug=slug)
         return render(request, 'product-detail.html', self.context)
 
 
@@ -65,3 +66,4 @@ def review(request):
         )
         data.save
         return redirect(f'/product-details/{{slug}}')
+
