@@ -265,18 +265,9 @@
                         
                         <div class="sidebar-widget tag">
                             <h2 class="title">Tags Cloud</h2>
-                            <a href="#">Lorem ipsum</a>
-                            <a href="#">Vivamus</a>
-                            <a href="#">Phasellus</a>
-                            <a href="#">pulvinar</a>
-                            <a href="#">Curabitur</a>
-                            <a href="#">Fusce</a>
-                            <a href="#">Sem quis</a>
-                            <a href="#">Mollis metus</a>
-                            <a href="#">Sit amet</a>
-                            <a href="#">Vel posuere</a>
-                            <a href="#">orci luctus</a>
-                            <a href="#">Nam lorem</a>
+                           {% for brand in brands %}
+                            <a href="#">{{brand.name}}</a>
+                            {% endfor %}
                         </div>
                     </div>
                     <!-- Side Bar End -->
@@ -289,12 +280,9 @@
         <div class="brand">
             <div class="container-fluid">
                 <div class="brand-slider">
-                    <div class="brand-item"><img src="img/brand-1.png" alt=""></div>
-                    <div class="brand-item"><img src="img/brand-2.png" alt=""></div>
-                    <div class="brand-item"><img src="img/brand-3.png" alt=""></div>
-                    <div class="brand-item"><img src="img/brand-4.png" alt=""></div>
-                    <div class="brand-item"><img src="img/brand-5.png" alt=""></div>
-                    <div class="brand-item"><img src="img/brand-6.png" alt=""></div>
+                    {% for brand in brands %}
+                    <div class="brand-item"><img src="{{brand.image.url}}" alt=""></div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
