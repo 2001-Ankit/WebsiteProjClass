@@ -104,3 +104,30 @@ def add_to_cart(request,slug):
         quantity = Cart.objects.get(slug = slug, username = username,checkout = False).quantity
         price = Product.objects.get(slug = slug).price
         discounted_price = Cart.objects.get(slug = slug).discounted_price
+
+        if discounted_price > 0:
+            original_price = discounted_price
+        else:
+            original_price = price
+
+        quantity = quantity +1
+        total = quantity * original_price
+        Cart.objects.filter(slug = slug, username = username, quantity = quantity, total=total)
+        return redirect('/cart')
+    else:
+        quantity = Cart.objects.get(slug=slug, username=username, checkout=False).quantity
+        price = Product.objects.get(slug=slug).price
+        discounted_price = Cart.objects.get(slug=slug).discounted_price
+
+        if discounted_price > 0:
+            original_price = discounted_price
+        else:
+            original_price = price
+        data = Cart.objects.create(slug=slug,
+                            username=username,
+                            total=original_price,
+                            items = Product.objects.filter(slug = slug)[0]
+                            )
+
+        data.save()
+        return redirect('/cart')
